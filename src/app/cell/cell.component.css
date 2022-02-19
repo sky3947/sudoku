@@ -6,3 +6,7 @@ div.cell {
 div.concrete {
   color: white;
 }
+
+div.selected {
+  border: 2px solid skyblue;
+}
