@@ -1,0 +1,8 @@
+div.cell {
+  font-size: calc(min(2.5vw, max(5vh, 3em)));
+  color: gray;
+}
+
+div.concrete {
+  color: white;
+}

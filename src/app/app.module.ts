@@ -4,11 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BoardComponent } from './board/board.component';
+import { RowComponent } from './row/row.component';
+import { CellComponent } from './cell/cell.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BoardComponent
+    BoardComponent,
+    RowComponent,
+    CellComponent
   ],
   imports: [
     BrowserModule,

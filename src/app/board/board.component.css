@@ -1,0 +1,7 @@
+.row {
+  margin: auto;
+}
+
+app-row:nth-child(3n+3) {
+  border-bottom-width: 4px !important;
+}

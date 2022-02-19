@@ -12,4 +12,8 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  test(): void {
+    console.log('entered');
+  }
+
 }
