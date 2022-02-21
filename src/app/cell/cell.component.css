@@ -1,10 +1,21 @@
+.row {
+  margin: auto;
+}
+
 div.cell {
-  font-size: 3em;
   color: gray;
+}
+
+div.value {
+  font-size: 3em;
 }
 
 div.concrete {
   color: white;
+}
+
+div.notes {
+  font-size: .75em;
 }
 
 div.selected {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DEFAULT_CELL } from '../cell';
+import { DEFAULT_CELL, DEFAULT_NOTES, Notes } from '../cell';
 import { CellService } from '../cell.service';
 
 @Component({
@@ -11,7 +11,8 @@ export class CellComponent implements OnInit {
   @Input() row: number = 0;
   @Input() col: number = 0;
   @Input() concrete: boolean = true;
-  value: number = 8;
+  @Input() notes: Notes = DEFAULT_NOTES;
+  value: number = 0;
 
   constructor(private cellService: CellService) { }
 
@@ -24,6 +25,7 @@ export class CellComponent implements OnInit {
         col: this.col,
         value: this.value,
         concrete: this.concrete,
+        notes: this.notes,
       }
     );
   }

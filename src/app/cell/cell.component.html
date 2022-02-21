@@ -1,1 +1,22 @@
-<div class="cell bg-dark user-select-none d-flex justify-content-center align-items-center" [ngClass]="{'concrete': this.concrete, 'selected': this.isSelected()}" (mouseover)="changeCell()">{{value}}</div>
+<div class="cell bg-dark" (mouseover)="changeCell()">
+  <div *ngIf="value <= 0" class="notes">
+    <div class="row">
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.one ? 1 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.two ? 2 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.thr ? 3 : '' }}</div>
+    </div>
+    <div class="row">
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.fou ? 4 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.fiv ? 5 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.six ? 6 : '' }}</div>
+    </div>
+    <div class="row">
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.sev ? 7 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.eig ? 8 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.nin ? 9 : '' }}</div>
+    </div>
+  </div>
+  <div class="value w-100 h-100 d-flex justify-content-center align-items-center" [ngClass]="{'concrete': concrete, 'selected': isSelected()}" style="margin-top: -100%;">
+    {{ value > 0 ? value : '' }}
+  </div>
+</div>
