@@ -1,0 +1,38 @@
+<ng-template #newGameModal let-modal>
+  <div class="modal-container bg-dark text-white">
+    <div class="modal-header">
+      <h4 class="modal-title">New Game</h4>
+      <button type="button" class="btn-close btn-close-white" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Are you sure you want to start a new game?</strong></p>
+      <p>Your old game will be deleted.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Cancel click')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="newGame('Ok click')">Ok</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #helpModal let-modal>
+  <div class="modal-container bg-dark text-white">
+    <div class="modal-header">
+      <h4 class="modal-title">How to Play</h4>
+      <button type="button" class="btn-close btn-close-white" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p>TODO: INSTRUCTIONS</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<div class="border w-100 border-secondary border-top-0 p-1 btn-group">
+  <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(newGameModal)">New</button>
+  <button type="button" class="btn btn-dark btn-block">Load</button>
+  <button type="button" class="btn btn-dark btn-block">Export</button>
+  <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(helpModal)">Help</button>
+</div>

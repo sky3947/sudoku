@@ -6,13 +6,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BoardComponent } from './board/board.component';
 import { RowComponent } from './row/row.component';
 import { CellComponent } from './cell/cell.component';
+import { OptionsComponent } from './options/options.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
     RowComponent,
-    CellComponent
+    CellComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,

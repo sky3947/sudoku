@@ -1,5 +1,5 @@
 div.cell {
-  font-size: calc(min(2.5vw, max(5vh, 3em)));
+  font-size: 3em;
   color: gray;
 }
 

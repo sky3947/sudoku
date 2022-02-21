@@ -1,3 +1,5 @@
 div.container {
-  padding: 10% 20% 5% 20%;
+  min-width: 600px;
+  max-width: 600px;
+  padding-top: 5% !important;
 }

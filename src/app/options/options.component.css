@@ -1,0 +1,20 @@
+div.border {
+  border-width: 4px !important;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+.btn-group .btn {
+  margin-left: 1px !important;
+  margin-right: 1px !important;
+}
+
+.btn-group .btn:first-child {
+  margin-left: 0px !important;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0px !important;
+}
