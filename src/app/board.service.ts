@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_NOTES } from './cell';
+import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_CONCRETE, DEFAULT_NOTES, DEFAULT_VALUE } from './cell';
 import { positiveMod } from './util';
 
 export enum Direction {
@@ -42,8 +42,8 @@ export class BoardService {
     return {
       row: row,
       col: col,
-      value: (typeof value === 'undefined' ? 0 : value),
-      concrete: (typeof concrete === 'undefined' ? true : concrete),
+      value: (typeof value === 'undefined' ? DEFAULT_VALUE : value),
+      concrete: (typeof concrete === 'undefined' ? DEFAULT_CONCRETE : concrete),
       notes: (typeof notes === 'undefined' ? [...DEFAULT_NOTES] : notes),
     }
   }
@@ -79,9 +79,14 @@ export class BoardService {
     // TODO: generate new valid game
     for (const row of this.board) {
       for (const cell of row) {
-        cell.value = Math.floor(Math.random() * 10);
         cell.concrete = false;
-        cell.notes = this.randomNotes();
+        if (Math.random() < .5) {
+          cell.value = Math.floor(Math.random() * 10);
+          if (cell.value > 0)
+            cell.concrete = true;
+        } else {
+          cell.notes = this.randomNotes();
+        }
       }
     }
   }
@@ -155,7 +160,7 @@ export class BoardService {
    * @param num The number input.
    */
   makeEdit(num: number): void {
-    if (typeof this.hoveredCell === 'undefined')
+    if (typeof this.hoveredCell === 'undefined' || this.hoveredCell.concrete)
       return;
 
     if (this.noteMode) {
@@ -164,7 +169,8 @@ export class BoardService {
       this.hoveredCell.notes[num - 1] = !this.hoveredCell.notes[num - 1];
     } else {
       this.hoveredCell.value = num;
-      this.hoveredCell.notes = [...DEFAULT_NOTES]
+      if (num !== 0)
+        this.hoveredCell.notes = [...DEFAULT_NOTES];
     }
   }
 }

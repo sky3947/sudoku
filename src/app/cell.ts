@@ -25,11 +25,15 @@ export interface Cell {
   notes: boolean[];
 }
 
+export const DEFAULT_VALUE: number = 0;
+
+export const DEFAULT_CONCRETE: boolean = false;
+
 export const DEFAULT_CELL: Cell = {
   row: -1,
   col: -1,
-  value: 0,
-  concrete: true,
+  value: DEFAULT_VALUE,
+  concrete: DEFAULT_CONCRETE,
   notes: [...DEFAULT_NOTES],
 }
 
