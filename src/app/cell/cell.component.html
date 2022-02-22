@@ -1,22 +1,29 @@
 <div class="cell bg-dark" (mouseover)="changeCell()">
-  <div *ngIf="value <= 0" class="notes">
+  <div class="notes">
     <div class="row">
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.one ? 1 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.two ? 2 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.thr ? 3 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[0] && cell.value <= 0 ? 1 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[1] && cell.value <= 0 ? 2 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[2] && cell.value <= 0 ? 3 : '' }}</div>
     </div>
     <div class="row">
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.fou ? 4 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.fiv ? 5 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.six ? 6 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[3] && cell.value <= 0 ? 4 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[4] && cell.value <= 0 ? 5 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[5] && cell.value <= 0 ? 6 : '' }}</div>
     </div>
     <div class="row">
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.sev ? 7 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.eig ? 8 : '' }}</div>
-      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ notes.nin ? 9 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[6] && cell.value <= 0 ? 7 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[7] && cell.value <= 0 ? 8 : '' }}</div>
+      <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[8] && cell.value <= 0 ? 9 : '' }}</div>
     </div>
   </div>
-  <div class="value w-100 h-100 d-flex justify-content-center align-items-center" [ngClass]="{'concrete': concrete, 'selected': isSelected()}" style="margin-top: -100%;">
-    {{ value > 0 ? value : '' }}
+  <div
+  class="value w-100 h-100 d-flex justify-content-center align-items-center"
+  [ngClass]="{
+    'concrete': cell.concrete,
+    'selected': (isSelected() && !isNoteMode()),
+    'selected-note-mode': (isSelected() && isNoteMode())
+  }"
+  style="margin-top: -100%;">
+    {{ cell.value > 0 ? cell.value : '' }}
   </div>
 </div>

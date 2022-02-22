@@ -21,3 +21,7 @@ div.notes {
 div.selected {
   border: 2px solid skyblue;
 }
+
+div.selected-note-mode {
+  border: 2px dashed skyblue;
+}

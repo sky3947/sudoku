@@ -1,29 +1,14 @@
 /**
  * The Notes interface stores which numbers the player thinks a certain cell
- * could have.
+ * could have. The note for N is stored in index N-1.
  */
- export interface Notes {
-  one: boolean;
-  two: boolean;
-  thr: boolean;
-  fou: boolean;
-  fiv: boolean;
-  six: boolean;
-  sev: boolean;
-  eig: boolean;
-  nin: boolean;
-}
+export const DEFAULT_NOTES: boolean[] = Array(9).fill(false);
 
-export const DEFAULT_NOTES: Notes = {
-  one: false,
-  two: false,
-  thr: false,
-  fou: false,
-  fiv: false,
-  six: false,
-  sev: false,
-  eig: false,
-  nin: false,
+export const notesEqual = (a: boolean[], b: boolean[]): boolean => {
+  return (
+    a.length === 9 && a.length === b.length &&
+    a.every((value, index) => {value === b[index]})
+  );
 }
 
 /**
@@ -37,7 +22,7 @@ export interface Cell {
   col: number;
   value: number;
   concrete: boolean;
-  notes: Notes;
+  notes: boolean[];
 }
 
 export const DEFAULT_CELL: Cell = {
@@ -46,4 +31,11 @@ export const DEFAULT_CELL: Cell = {
   value: 0,
   concrete: true,
   notes: DEFAULT_NOTES,
+}
+
+export const cellValuesEqual = (a: Cell, b: Cell): boolean => {
+  return (
+    a.value === b.value && a.concrete === b.concrete &&
+    notesEqual(a.notes, b.notes)
+  );
 }

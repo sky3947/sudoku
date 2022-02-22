@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DEFAULT_CELL, DEFAULT_NOTES, Notes } from '../cell';
-import { CellService } from '../cell.service';
+import { BoardService } from '../board.service';
+import { Cell, DEFAULT_CELL } from '../cell';
 
 @Component({
   selector: 'app-cell',
@@ -10,31 +10,29 @@ import { CellService } from '../cell.service';
 export class CellComponent implements OnInit {
   @Input() row: number = 0;
   @Input() col: number = 0;
-  @Input() concrete: boolean = true;
-  @Input() notes: Notes = DEFAULT_NOTES;
-  value: number = 0;
+  cell!: Cell;
 
-  constructor(private cellService: CellService) { }
+  constructor(
+    private boardService: BoardService,
+    ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.cell = this.boardService.getCell(this.row, this.col);
+  }
 
   changeCell(): void {
-    this.cellService.changeCell(
-      {
-        row: this.row,
-        col: this.col,
-        value: this.value,
-        concrete: this.concrete,
-        notes: this.notes,
-      }
-    );
+    this.boardService.changeHoveredCell(this.cell);
   }
 
   isSelected(): boolean {
-    let selectedCell = this.cellService.hoveredCell;
+    let selectedCell = this.boardService.hoveredCell;
     if (!selectedCell) {
       selectedCell = DEFAULT_CELL;
     }
-    return (selectedCell.row === this.row) && (selectedCell.col === this.col)
+    return (selectedCell.row === this.row) && (selectedCell.col === this.col);
+  }
+
+  isNoteMode(): boolean {
+    return this.boardService.noteMode;
   }
 }

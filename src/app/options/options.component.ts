@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { BoardService } from '../board.service';
 
 @Component({
   selector: 'app-options',
@@ -9,7 +10,10 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class OptionsComponent implements OnInit {
   activeModal?: NgbModalRef;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(
+    private modalService: NgbModal,
+    private boardService: BoardService,
+    ) { }
 
   ngOnInit(): void { }
 
@@ -21,6 +25,6 @@ export class OptionsComponent implements OnInit {
     if (this.activeModal) {
       this.activeModal.close(result);
     }
-    console.log('time to make new game');
+    this.boardService.newGame();
   }
 }
