@@ -8,39 +8,52 @@ import { CONTROLS, ControlsService } from './controls.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'sudoku';
+
   constructor(private controlsService: ControlsService) { }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
+      // Movement: up.
       case CONTROLS.Up:
       case CONTROLS.Up2:
       case CONTROLS.Up3: {
         this.controlsService.moveHoveredCell(Direction.Up);
         break;
       }
+
+      // Movement: left.
       case CONTROLS.Left:
       case CONTROLS.Left2:
       case CONTROLS.Left3: {
         this.controlsService.moveHoveredCell(Direction.Left);
         break;
       }
+
+      // Movement: down.
       case CONTROLS.Down:
       case CONTROLS.Down2:
       case CONTROLS.Down3: {
         this.controlsService.moveHoveredCell(Direction.Down);
         break;
       }
+
+      // Movement: right.
       case CONTROLS.Right:
       case CONTROLS.Right2:
       case CONTROLS.Right3: {
         this.controlsService.moveHoveredCell(Direction.Right);
         break;
       }
+
+      // Toggle note taking mode.
       case CONTROLS.ToggleNoteMode: {
         this.controlsService.toggleNoteMode();
         break;
       }
+
+      // Cell editing.
       case CONTROLS.None:
       case CONTROLS.None2:
       case CONTROLS.None3: {

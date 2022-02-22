@@ -7,7 +7,7 @@ export const DEFAULT_NOTES: boolean[] = Array(9).fill(false);
 export const notesEqual = (a: boolean[], b: boolean[]): boolean => {
   return (
     a.length === 9 && a.length === b.length &&
-    a.every((value, index) => {value === b[index]})
+    a.every((value, index) => value === b[index])
   );
 }
 
@@ -30,7 +30,7 @@ export const DEFAULT_CELL: Cell = {
   col: -1,
   value: 0,
   concrete: true,
-  notes: DEFAULT_NOTES,
+  notes: [...DEFAULT_NOTES],
 }
 
 export const cellValuesEqual = (a: Cell, b: Cell): boolean => {

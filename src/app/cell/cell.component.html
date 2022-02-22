@@ -1,4 +1,4 @@
-<div class="cell bg-dark" (mouseover)="changeCell()">
+<div class="cell bg-dark" (mouseover)="changeHoveredCell()">
   <div class="notes">
     <div class="row">
       <div class="col p-0 d-flex justify-content-center align-items-center ratio ratio-1x1">{{ cell.notes[0] && cell.value <= 0 ? 1 : '' }}</div>
@@ -20,8 +20,8 @@
   class="value w-100 h-100 d-flex justify-content-center align-items-center"
   [ngClass]="{
     'concrete': cell.concrete,
-    'selected': (isSelected() && !isNoteMode()),
-    'selected-note-mode': (isSelected() && isNoteMode())
+    'selected': (isHovered() && !isNoteMode()),
+    'selected-note-mode': (isHovered() && isNoteMode())
   }"
   style="margin-top: -100%;">
     {{ cell.value > 0 ? cell.value : '' }}

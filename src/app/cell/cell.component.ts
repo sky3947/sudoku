@@ -8,8 +8,11 @@ import { Cell, DEFAULT_CELL } from '../cell';
   styleUrls: ['./cell.component.css']
 })
 export class CellComponent implements OnInit {
+  // The row and column indices of this Cell.
   @Input() row: number = 0;
   @Input() col: number = 0;
+
+  // This Cell's information.
   cell!: Cell;
 
   constructor(
@@ -17,14 +20,23 @@ export class CellComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    // Aqcuire Cell information.
     this.cell = this.boardService.getCell(this.row, this.col);
   }
 
-  changeCell(): void {
+  /**
+   * Asks the BoardService to change the hovered cell to this.
+   */
+  changeHoveredCell(): void {
     this.boardService.changeHoveredCell(this.cell);
   }
 
-  isSelected(): boolean {
+  /**
+   * Checks if this Cell is hovered.
+   * 
+   * @returns True if this Cell is hovered. False otherwise.
+   */
+  isHovered(): boolean {
     let selectedCell = this.boardService.hoveredCell;
     if (!selectedCell) {
       selectedCell = DEFAULT_CELL;
@@ -32,6 +44,11 @@ export class CellComponent implements OnInit {
     return (selectedCell.row === this.row) && (selectedCell.col === this.col);
   }
 
+  /**
+   * Checks if the player is editing notes.
+   * 
+   * @returns True if the player is editing notes. False otherwise.
+   */
   isNoteMode(): boolean {
     return this.boardService.noteMode;
   }

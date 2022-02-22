@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_NOTES } from './cell';
+import { positiveMod } from './util';
 
 export enum Direction {
   Up,
@@ -12,8 +13,13 @@ export enum Direction {
   providedIn: 'root'
 })
 export class BoardService {
+  // The sudoku board.
   board: Cell[][];
+
+  // The hovered cell in the sudoku board.
   hoveredCell?: Cell;
+
+  // Whether or not the user is jotting notes.
   noteMode: boolean = false;
 
   constructor() {
@@ -56,6 +62,9 @@ export class BoardService {
     return this.board.every(row => row.every(cell => cellValuesEqual(cell, DEFAULT_CELL)));
   }
 
+  /**
+   * Creates an empty board and returns it.
+   */
   makeMtBoard(): Cell[][] {
     let board = new Array(9).fill(DEFAULT_CELL).map(() => new Array(9).fill(DEFAULT_CELL));
     for (let row = 0; row < board.length; row++) {
@@ -68,8 +77,6 @@ export class BoardService {
 
   newGame(): void {
     // TODO: generate new valid game
-    console.log(this.board[0][0], this.board[0][1]);
-    console.log(this.isBoardMt())
     for (const row of this.board) {
       for (const cell of row) {
         cell.value = Math.floor(Math.random() * 10);
@@ -77,22 +84,33 @@ export class BoardService {
         cell.notes = this.randomNotes();
       }
     }
-    console.log(this.board[0][0], this.board[0][1]);
-    console.log(this.isBoardMt())
   }
 
+  /**
+   * Returns the Cell at a given row and column index.
+   * 
+   * @param row The row index.
+   * @param col The column index.
+   * @returns The Cell at the given indices.
+   */
   getCell(row: number, col: number): Cell {
     return this.board[row][col];
   }
 
+  /**
+   * Changes the hovered Cell.
+   * 
+   * @param hoveredCell The Cell hovered by the player.
+   */
   changeHoveredCell(hoveredCell: Cell): void {
     this.hoveredCell = hoveredCell;
   }
 
-  positiveMod(n: number, m: number): number {
-    return ((n % m) + m) % m;
-  }
-
+  /**
+   * Moves the cursor to another Cell in a given direction.
+   * 
+   * @param dir Direction to move the cursor.
+   */
   moveHoveredCell(dir: Direction): void {
     if (typeof this.hoveredCell === 'undefined') {
       this.hoveredCell = this.board[0][0];
@@ -103,19 +121,19 @@ export class BoardService {
     let colIndex = this.hoveredCell.col;
     switch (dir) {
       case Direction.Up: {
-        this.hoveredCell = this.board[this.positiveMod(rowIndex - 1, 9)][colIndex];
+        this.hoveredCell = this.board[positiveMod(rowIndex - 1, 9)][colIndex];
         break;
       }
       case Direction.Down: {
-        this.hoveredCell = this.board[this.positiveMod((rowIndex + 1), 9)][colIndex];
+        this.hoveredCell = this.board[positiveMod((rowIndex + 1), 9)][colIndex];
         break;
       }
       case Direction.Left: {
-        this.hoveredCell = this.board[rowIndex][this.positiveMod((colIndex - 1), 9)];
+        this.hoveredCell = this.board[rowIndex][positiveMod((colIndex - 1), 9)];
         break;
       }
       case Direction.Right: {
-        this.hoveredCell = this.board[rowIndex][this.positiveMod((colIndex + 1), 9)];
+        this.hoveredCell = this.board[rowIndex][positiveMod((colIndex + 1), 9)];
         break;
       }
       default: {
@@ -124,20 +142,29 @@ export class BoardService {
     }
   }
 
+  /**
+   * Toggles note taking mode.
+   */
   toggleNoteMode(): void {
     this.noteMode = !this.noteMode;
   }
 
+  /**
+   * Make an edit to a cell given an input number.
+   * 
+   * @param num The number input.
+   */
   makeEdit(num: number): void {
     if (typeof this.hoveredCell === 'undefined')
       return;
 
     if (this.noteMode) {
-      if (num === 0)
+      if (num === 0 || this.hoveredCell.value > 0)
         return;
       this.hoveredCell.notes[num - 1] = !this.hoveredCell.notes[num - 1];
     } else {
       this.hoveredCell.value = num;
+      this.hoveredCell.notes = [...DEFAULT_NOTES]
     }
   }
 }

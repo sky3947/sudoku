@@ -43,14 +43,28 @@ export const CONTROLS = {
 export class ControlsService {
   constructor(private boardService: BoardService) { }
 
+  /**
+   * Asks the BoardService to toggle note taking mode.
+   */
   toggleNoteMode(): void {
     this.boardService.toggleNoteMode();
   }
 
+  /**
+   * Asks the BoardService to move the cursor to another Cell in a given
+   * direction.
+   * 
+   * @param dir The direction to move the cursor.
+   */
   moveHoveredCell(dir: Direction): void {
     this.boardService.moveHoveredCell(dir);
   }
 
+  /**
+   * Asks the BoardService to make an edit with an input number.
+   * 
+   * @param num The number input.
+   */
   makeEdit(num: number): void {
     this.boardService.makeEdit(num);
   }
