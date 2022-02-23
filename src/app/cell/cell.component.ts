@@ -20,7 +20,7 @@ export class CellComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    // Aqcuire Cell information.
+    // Acquire Cell information.
     this.cell = this.boardService.getCell(this.row, this.col);
   }
 
@@ -42,6 +42,20 @@ export class CellComponent implements OnInit {
       selectedCell = DEFAULT_CELL;
     }
     return (selectedCell.row === this.row) && (selectedCell.col === this.col);
+  }
+
+  /**
+   * Checks if this Cell's value is the same as the hovered Cell's value.
+   * 
+   * @returns True if this Cell's value is the same as the hovered Cell's
+   *          value. False otherwise.
+   */
+  isSameValueHovered(): boolean {
+    let selectedCell = this.boardService.hoveredCell;
+    if (!selectedCell) {
+      selectedCell = DEFAULT_CELL;
+    }
+    return (selectedCell.value > 0 && selectedCell.value === this.cell.value);
   }
 
   /**

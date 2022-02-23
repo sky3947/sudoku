@@ -6,6 +6,10 @@ div.cell {
   color: slategray;
 }
 
+div.cell.highlighted {
+  background-color: #3a4148 !important;
+}
+
 div.value {
   font-size: 3em;
 }
