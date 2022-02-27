@@ -141,12 +141,13 @@ export class SudokuGeneratorService {
    * @param current The current Cell being filled.
    */
   private fillBoardRandomRec(board: Cell[][], current: number): void {
-    // Check the end case.
-    if(current === 81) {
+    // Start by checking the end case.
+    if(current === 9*9) {
       this.genFinishFlag = true;
       return;
     }
 
+    // The `tries` array remembers which numbers have been tried.
     let tries = new Array(9).fill(false);
     let nextTry = this.nextTry(tries);
     let row = Math.floor(current / 9);
@@ -154,6 +155,7 @@ export class SudokuGeneratorService {
     while (nextTry > 0) {
       tries[this.tryAt(nextTry)] = true;
 
+      // Retry if the chosen number (nextTry) is invalid.
       if(!this.isValidValue(board, row, col, nextTry)) {
         nextTry = this.nextTry(tries);
         continue;
@@ -161,16 +163,19 @@ export class SudokuGeneratorService {
       board[row][col].value = nextTry;
       board[row][col].concrete = true;
 
+      // So far, the tried value is valid. Continue process on next Cell.
       this.fillBoardRandomRec(board, current + 1);
 
-      // Check if board has finished.
+      // Here, the board has been filled or a contradiction occured.
+      // Check if board has finished. If so, we're done.
       if (this.genFinishFlag)
         return;
+
+      // Contradiction occurred, Retry.
       nextTry = this.nextTry(tries);
     }
 
-    // Fall-through; no tries left.
-    console.log('fall-through');
+    // Fall-through; no tries left (contradiction.) Undo and backtrack.
     board[row][col].value = 0;
     board[row][col].concrete = false;
   }
