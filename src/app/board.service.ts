@@ -27,11 +27,6 @@ export class BoardService {
     this.board = sudokuGeneratorService.makeMtBoard();
   }
 
-  // TODO: REMOVE AFTER VALID GAME GENERATION
-  randomNotes(): boolean[] {
-    return Array.from({ length: 9 }, () => Math.random() < .5);
-  }
-
   /**
    * Checks if the board is empty.
    * 
@@ -41,20 +36,11 @@ export class BoardService {
     return this.board.every(row => row.every(cell => cellValuesEqual(cell, DEFAULT_CELL)));
   }
 
+  /**
+   * Tells the SudokuGeneratorService to make a new sudoku game.
+   */
   newGame(): void {
-    // TODO: generate new valid game
-    for (const row of this.board) {
-      for (const cell of row) {
-        cell.concrete = false;
-        if (Math.random() < .5) {
-          cell.value = Math.floor(Math.random() * 10);
-          if (cell.value > 0)
-            cell.concrete = true;
-        } else {
-          cell.notes = this.randomNotes();
-        }
-      }
-    }
+    this.sudokuGeneratorService.newGame(this.board);
   }
 
   /**

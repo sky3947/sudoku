@@ -96,10 +96,6 @@ export class AppComponent {
         this.controlsService.makeEdit(9);
         break;
       }
-      // TODO: REMOVE AFTER CONTROLS ARE FINISHED
-      default: {
-        console.log(event.key);
-      }
     }
   }
 }

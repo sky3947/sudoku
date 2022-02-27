@@ -43,3 +43,7 @@ export const cellValuesEqual = (a: Cell, b: Cell): boolean => {
     notesEqual(a.notes, b.notes)
   );
 }
+
+export const cellPosEqual = (a: Cell, b: Cell): boolean => (a.row === b.row && a.col === b.col);
+
+export const cellEqual = (a: Cell, b: Cell): boolean => (cellPosEqual(a, b) && cellValuesEqual(a, b));
