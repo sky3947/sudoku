@@ -37,13 +37,15 @@ export const DEFAULT_CELL: Cell = {
   notes: [...DEFAULT_NOTES],
 }
 
-export const cellValuesEqual = (a: Cell, b: Cell): boolean => {
+export const cellPosEqual = (a: Cell, b: Cell): boolean => (a.row === b.row && a.col === b.col);
+
+export const cellValuesEqual = (a: Cell, b: Cell): boolean => (a.value === b.value);
+
+export const cellInfoEqual = (a: Cell, b: Cell): boolean => {
   return (
-    a.value === b.value && a.concrete === b.concrete &&
+    cellValuesEqual(a, b) && a.concrete === b.concrete &&
     notesEqual(a.notes, b.notes)
   );
 }
 
-export const cellPosEqual = (a: Cell, b: Cell): boolean => (a.row === b.row && a.col === b.col);
-
-export const cellEqual = (a: Cell, b: Cell): boolean => (cellPosEqual(a, b) && cellValuesEqual(a, b));
+export const cellEqual = (a: Cell, b: Cell): boolean => (cellPosEqual(a, b) && cellInfoEqual(a, b));

@@ -125,4 +125,14 @@ export class BoardService {
         this.hoveredCell.notes = [...DEFAULT_NOTES];
     }
   }
+
+  /**
+   * Checks if a Cell has a valid value.
+   * 
+   * @param cell The Cell to check.
+   * @returns True if the Cell has a valid value. False otherwise.
+   */
+  isValidValue(cell: Cell) {
+    return this.sudokuGeneratorService.isValidValue(this.board, cell.row, cell.col, cell.value);
+  }
 }

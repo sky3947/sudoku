@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BoardService } from '../board.service';
-import { Cell, DEFAULT_CELL } from '../cell';
+import { Cell, cellValuesEqual, DEFAULT_CELL } from '../cell';
 
 @Component({
   selector: 'app-cell',
@@ -15,9 +15,7 @@ export class CellComponent implements OnInit {
   // This Cell's information.
   cell!: Cell;
 
-  constructor(
-    private boardService: BoardService,
-    ) { }
+  constructor(private boardService: BoardService) { }
 
   ngOnInit(): void {
     // Acquire Cell information.
@@ -55,7 +53,16 @@ export class CellComponent implements OnInit {
     if (!selectedCell) {
       selectedCell = DEFAULT_CELL;
     }
-    return (selectedCell.value > 0 && selectedCell.value === this.cell.value);
+    return (selectedCell.value > 0 && cellValuesEqual(selectedCell, this.cell));
+  }
+
+  /**
+   * Checks if this Cell's value is invalid (doesn't break any sudoku rules.)
+   * 
+   * @returns True if this Cell's value is invalid. False otherwise.
+   */
+  isInvalidValue(): boolean {
+    return !this.boardService.isValidValue(this.cell);
   }
 
   /**

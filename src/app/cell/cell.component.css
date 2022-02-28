@@ -10,6 +10,10 @@ div.cell.highlighted {
   background-color: #3a4148 !important;
 }
 
+div.cell.invalid {
+  background-color: #4c1d20 !important;
+}
+
 div.value {
   font-size: 3em;
 }

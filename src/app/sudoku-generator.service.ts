@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Cell, cellPosEqual, DEFAULT_CELL, DEFAULT_CONCRETE, DEFAULT_NOTES, DEFAULT_VALUE } from './cell';
+import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_CONCRETE, DEFAULT_NOTES, DEFAULT_VALUE } from './cell';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SudokuGeneratorService {
   // Used by the solver algorithm to communicate the board's progress.
-  private genFinishFlag: boolean = false;
+  private solveFlag: boolean = false;
 
   constructor() { }
 
@@ -55,7 +55,7 @@ export class SudokuGeneratorService {
     return board[row].some(cell => this.isInPos(cell, row, col) ? false : cell.value === value);
   }
 
-  // Helper function to check if a Cell's value is repeatsed in its column.
+  // Helper function to check if a Cell's value is repeated in its column.
   private isRepeatedInCol(board: Cell[][], row: number, col: number, value: number): boolean {
     return board.some(innerRow => this.isInPos(innerRow[col], row, col) ? false : innerRow[col].value === value);
   }
@@ -104,12 +104,45 @@ export class SudokuGeneratorService {
   }
 
   /**
+   * Checks if the current state of the board breaks any rules.
+   * 
+   * @param board The board to check.
+   * @returns True if the board currently looks valid. False otherwise.
+   */
+  isBoardCurrentlyValid(board: Cell[][]): boolean {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (!this.isValidValue(board, row, col, board[row][col].value)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the board is solved.
+   * 
+   * @param board The board to check.
+   * @returns True if the board is solved. False otherwise.
+   */
+  isBoardSolved(board: Cell[][]): boolean {
+    return (
+      // There are no empty spots.
+      !board.some(row => row.some(cell => cellValuesEqual(cell, DEFAULT_CELL))) &&
+
+      // There are no Cells breaking the sudoku rules.
+      this.isBoardCurrentlyValid(board)
+    );
+  }
+
+  /**
    * This is a helper function to map sudoku numbers to their correct indices
    * in a `tries` array. This helps avoid indexing bugs by offloading the
    * responsibility of keeping track of the mapping.
    * 
    * @param aTry The sudoku number of the index to look for.
-   * @returns The tries index of a given sudoku number.
+   * @returns The `tries` index of a given sudoku number.
    */
   private tryAt(aTry: number) {
     return aTry - 1;
@@ -135,15 +168,16 @@ export class SudokuGeneratorService {
   }
 
   /**
-   * Fills in an empty sudoku board using backtracking and a finish flag.
+   * Solves a sudoku board using backtracking. If there are any empty Cells
+   * after execution, the board is unsolvable.
    * 
    * @param board The board to solve.
    * @param current The current Cell being filled.
    */
-  private fillBoardRandomRec(board: Cell[][], current: number): void {
+  private solveRandomRec(board: Cell[][], current: number): void {
     // Start by checking the end case.
-    if(current === 9*9) {
-      this.genFinishFlag = true;
+    if (current === 9*9) {
+      this.solveFlag = true;
       return;
     }
 
@@ -152,6 +186,13 @@ export class SudokuGeneratorService {
     let nextTry = this.nextTry(tries);
     let row = Math.floor(current / 9);
     let col = current % 9;
+
+    // Skip Cells that are already filled in.
+    if (board[row][col].value > 0) {
+      this.solveRandomRec(board, current + 1);
+      return;
+    }
+
     while (nextTry > 0) {
       tries[this.tryAt(nextTry)] = true;
 
@@ -161,14 +202,13 @@ export class SudokuGeneratorService {
         continue;
       }
       board[row][col].value = nextTry;
-      board[row][col].concrete = true;
 
       // So far, the tried value is valid. Continue process on next Cell.
-      this.fillBoardRandomRec(board, current + 1);
+      this.solveRandomRec(board, current + 1);
 
       // Here, the board has been filled or a contradiction occured.
       // Check if board has finished. If so, we're done.
-      if (this.genFinishFlag)
+      if (this.solveFlag)
         return;
 
       // Contradiction occurred, Retry.
@@ -177,15 +217,20 @@ export class SudokuGeneratorService {
 
     // Fall-through; no tries left (contradiction.) Undo and backtrack.
     board[row][col].value = 0;
-    board[row][col].concrete = false;
   }
 
   /**
-   * The wrapper function for `fillBoardRandomRec`.
+   * The wrapper function for `solveRandomRec`.
    */
-  private fillBoardRandom(board: Cell[][]) {
-    this.genFinishFlag = false;
-    this.fillBoardRandomRec(board, 0);
+  private solveRandom(board: Cell[][]) {
+    // First, check if the board is currently valid.
+    if (!this.isBoardCurrentlyValid(board)) {
+      return;
+    }
+
+    // Try to solve.
+    this.solveFlag = false;
+    this.solveRandomRec(board, 0);
   }
 
   /**
@@ -202,8 +247,10 @@ export class SudokuGeneratorService {
     }
 
     // Fill the board.
-    this.fillBoardRandom(board);
+    this.solveRandom(board);
 
-    // Remove values until only 25 are left.
+    // Remove values until only 25 are left, only allowing one solution.
+
+    // Make values concrete.
   }
 }
