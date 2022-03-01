@@ -112,7 +112,7 @@ export class BoardService {
    * @param num The number input.
    */
   makeEdit(num: number): void {
-    if (typeof this.hoveredCell === 'undefined' || this.hoveredCell.concrete)
+    if (typeof this.hoveredCell === 'undefined' || this.hoveredCell.concrete || this.isBoardMt())
       return;
 
     if (this.noteMode) {
@@ -134,5 +134,8 @@ export class BoardService {
    */
   isValidValue(cell: Cell) {
     return this.sudokuGeneratorService.isValidValue(this.board, cell.row, cell.col, cell.value);
+  }
+
+  autoNotes(): void {
   }
 }

@@ -16,6 +16,23 @@
   </div>
 </ng-template>
 
+<ng-template #noteModal let-modal>
+  <div class="modal-container bg-dark text-white">
+    <div class="modal-header">
+      <h4 class="modal-title">Generate Notes</h4>
+      <button type="button" class="btn-close btn-close-white" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Are you sure you want to automatically generate notes?</strong></p>
+      <p>Your current notes will be overriden.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Cancel click')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="autoNotes('Ok click')">Ok</button>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #helpModal let-modal>
   <div class="modal-container bg-dark text-white">
     <div class="modal-header">
@@ -23,7 +40,27 @@
       <button type="button" class="btn-close btn-close-white" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <p>TODO: INSTRUCTIONS</p>
+      <p><strong>How to play:</strong></p>
+      <p>
+        Sudoku is a puzzle game on a 9x9 grid. The goal is to fill every cell
+        with a number (1 to 9) so that no number is repeated in the same row,
+        column, and 3x3 subgrid.
+      </p>
+      <p><strong>Controls:</strong></p>
+      <p>Movement:</p>
+      <ul>
+        <li>Mouse left-click</li>
+        <li>WASD</li>
+        <li>HJKL</li>
+        <li>Arrow keys</li>
+      </ul>
+      <p>Editing:</p>
+      <ul>
+        <li>Numbers 1 to 9.</li>
+        <li>E or ENTER to toggle note mode.</li>
+        <li>0, SPACE, or BACKSPACE to clear a cell.</li>
+      </ul>
+      <p>Note mode allows you to note multiple possible numbers for a cell.</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
@@ -33,6 +70,7 @@
 
 <div class="border w-100 border-secondary border-top-0 p-1 btn-group">
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(newGameModal)">New</button>
+  <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(noteModal)">Auto Notes</button>
   <button type="button" class="btn btn-dark btn-block">Load</button>
   <button type="button" class="btn btn-dark btn-block">Export</button>
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(helpModal)">Help</button>

@@ -101,9 +101,6 @@ export class AppComponent {
         this.controlsService.makeEdit(9);
         break;
       }
-      default: {
-        console.log(event.key);
-      }
     }
   }
 }
