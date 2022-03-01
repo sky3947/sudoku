@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_CONCRETE, DEFAULT_NOTES, DEFAULT_VALUE } from './cell';
 
+/**
+ * Used to pass 'numbers' by reference.
+ */
+interface Counter {
+  count: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -176,7 +183,7 @@ export class SudokuGeneratorService {
    */
   private solveRandomRec(board: Cell[][], current: number): void {
     // Start by checking the end case.
-    if (current === 9*9) {
+    if (current === 9 * 9) {
       this.solveFlag = true;
       return;
     }
@@ -197,7 +204,7 @@ export class SudokuGeneratorService {
       tries[this.tryAt(nextTry)] = true;
 
       // Retry if the chosen number (nextTry) is invalid.
-      if(!this.isValidValue(board, row, col, nextTry)) {
+      if (!this.isValidValue(board, row, col, nextTry)) {
         nextTry = this.nextTry(tries);
         continue;
       }
@@ -222,15 +229,106 @@ export class SudokuGeneratorService {
   /**
    * The wrapper function for `solveRandomRec`.
    */
-  private solveRandom(board: Cell[][]) {
-    // First, check if the board is currently valid.
-    if (!this.isBoardCurrentlyValid(board)) {
+  private solveRandom(board: Cell[][]): void {
+    this.solveFlag = false;
+    this.solveRandomRec(board, 0);
+  }
+
+  /**
+   * Checks if a board has just one unique solution. This is done by counting
+   * the number of solutions, stopping if more than one was found.
+   * 
+   * @param board The board to check for uniqueness.
+   * @param current The current cell being tested.
+   * @param counter A counter to keep track of the number of solutions.
+   */
+  private isUniqueBoardRec(board: Cell[][], current: number, counter: Counter): void {
+    // The `tries` array remembers which numbers have been tried.
+    let tries = new Array(9).fill(false);
+    let nextTry = this.nextTry(tries);
+    let row = Math.floor(current / 9);
+    let col = current % 9;
+
+    // Check end case. If reached, a unique solution was found.
+    if (current === 9 * 9) {
+      counter.count += 1;
       return;
     }
 
-    // Try to solve.
-    this.solveFlag = false;
-    this.solveRandomRec(board, 0);
+    // Skip Cells that are already filled in.
+    if (board[row][col].value > 0) {
+      this.isUniqueBoardRec(board, current + 1, counter);
+      return;
+    }
+
+    while (nextTry > 0) {
+      tries[this.tryAt(nextTry)] = true;
+
+      // Retry if the chosen number (nextTry) is invalid.
+      if (!this.isValidValue(board, row, col, nextTry)) {
+        nextTry = this.nextTry(tries);
+        continue;
+      }
+      board[row][col].value = nextTry;
+
+      // So far, the tried value is valid. Continue process on next Cell.
+      this.isUniqueBoardRec(board, current + 1, counter);
+
+      // Stop and undo changes if more than one solution has been found.
+      if (counter.count > 1) {
+        board[row][col].value = 0;
+        return;
+      }
+
+      // To reach here, the board has backtracked after a unique solution or a
+      // contradiction. Try to find new solutions.
+      nextTry = this.nextTry(tries);
+    }
+
+    // Fall-through; no tries left. Undo and backtrack.
+    board[row][col].value = 0;
+  }
+
+  /**
+   * Wrapper function for `isUniqueBoardRec`.
+   */
+  private isUniqueBoard(board: Cell[][]): boolean {
+    let counter: Counter = { count: 0 };
+
+    // Count solutions.
+    this.isUniqueBoardRec(board, 0, counter);
+    return counter.count === 1;
+  }
+
+  private removeValues(board: Cell[][]): void {
+    // Keep track of number of values removed.
+    let removed = 0;
+
+    // The goal. Reach this number of values left.
+    let goal = 30;
+
+    while (goal + removed < 9 * 9) {
+      // Try a new Cell to remove
+      let aTry = Math.floor(Math.random() * 9 * 9);
+      let row = Math.floor(aTry / 9);
+      let col = aTry % 9;
+
+      // Check if Cell is already empty.
+      if (board[row][col].value === 0)
+        continue;
+
+      // Remove a value and make sure there's still only one solution.
+      let oldValue = board[row][col].value;
+      board[row][col].value = 0;
+
+      // If there's more than one solution, undo and try again with a new Cell.
+      if (!this.isUniqueBoard(board)) {
+        board[row][col].value = oldValue;
+        continue;
+      }
+
+      removed += 1;
+    }
   }
 
   /**
@@ -249,8 +347,16 @@ export class SudokuGeneratorService {
     // Fill the board.
     this.solveRandom(board);
 
-    // Remove values until only 25 are left, only allowing one solution.
+    // Remove values until only 30 are left, only allowing one solution.
+    this.removeValues(board);
 
     // Make values concrete.
+    for (const row of board) {
+      for (const cell of row) {
+        if (cell.value > 0) {
+          cell.concrete = true;
+        }
+      }
+    }
   }
 }

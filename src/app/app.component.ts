@@ -19,6 +19,7 @@ export class AppComponent {
       case CONTROLS.Up:
       case CONTROLS.Up2:
       case CONTROLS.Up3: {
+        (document.activeElement as HTMLElement).blur();
         this.controlsService.moveHoveredCell(Direction.Up);
         break;
       }
@@ -27,6 +28,7 @@ export class AppComponent {
       case CONTROLS.Left:
       case CONTROLS.Left2:
       case CONTROLS.Left3: {
+        (document.activeElement as HTMLElement).blur();
         this.controlsService.moveHoveredCell(Direction.Left);
         break;
       }
@@ -35,6 +37,7 @@ export class AppComponent {
       case CONTROLS.Down:
       case CONTROLS.Down2:
       case CONTROLS.Down3: {
+        (document.activeElement as HTMLElement).blur();
         this.controlsService.moveHoveredCell(Direction.Down);
         break;
       }
@@ -43,12 +46,14 @@ export class AppComponent {
       case CONTROLS.Right:
       case CONTROLS.Right2:
       case CONTROLS.Right3: {
+        (document.activeElement as HTMLElement).blur();
         this.controlsService.moveHoveredCell(Direction.Right);
         break;
       }
 
       // Toggle note taking mode.
-      case CONTROLS.ToggleNoteMode: {
+      case CONTROLS.ToggleNoteMode:
+      case CONTROLS.ToggleNoteMode2: {
         this.controlsService.toggleNoteMode();
         break;
       }
@@ -95,6 +100,9 @@ export class AppComponent {
       case CONTROLS.Nine: {
         this.controlsService.makeEdit(9);
         break;
+      }
+      default: {
+        console.log(event.key);
       }
     }
   }

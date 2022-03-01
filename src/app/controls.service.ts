@@ -21,6 +21,7 @@ export const CONTROLS = {
 
   // Toggle note taking mode.
   'ToggleNoteMode': 'e',
+  'ToggleNoteMode2': 'Enter',
 
   // Editing controls.
   'None': '0',
