@@ -116,7 +116,7 @@ export class SudokuGeneratorService {
    * @param board The board to check.
    * @returns True if the board currently looks valid. False otherwise.
    */
-  isBoardCurrentlyValid(board: Cell[][]): boolean {
+  private isBoardCurrentlyValid(board: Cell[][]): boolean {
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
         if (!this.isValidValue(board, row, col, board[row][col].value)) {
@@ -151,7 +151,7 @@ export class SudokuGeneratorService {
    * @param aTry The sudoku number of the index to look for.
    * @returns The `tries` index of a given sudoku number.
    */
-  tryAt(aTry: number) {
+  private tryAt(aTry: number) {
     return aTry - 1;
   }
 

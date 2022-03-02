@@ -8,6 +8,7 @@ import { RowComponent } from './row/row.component';
 import { CellComponent } from './cell/cell.component';
 import { OptionsComponent } from './options/options.component';
 import { AutoNotesModalComponent } from './auto-notes-modal/auto-notes-modal.component';
+import { WinModalComponent } from './win-modal/win-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AutoNotesModalComponent } from './auto-notes-modal/auto-notes-modal.com
     RowComponent,
     CellComponent,
     OptionsComponent,
-    AutoNotesModalComponent
+    AutoNotesModalComponent,
+    WinModalComponent
   ],
   imports: [
     BrowserModule,

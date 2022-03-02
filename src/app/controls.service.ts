@@ -82,7 +82,7 @@ export class ControlsService {
    * Open the confirmation modal for generating automatic notes.
    */
   showAutoNotesModal(): void {
-    if (this.boardService.isBoardMt())
+    if (this.boardService.isBoardSolved())
       return;
     this.modalService.open(AutoNotesModalComponent, { centered: true });
   }

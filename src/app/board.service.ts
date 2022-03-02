@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_CONCRETE, DEFAULT_NOTES, DEFAULT_VALUE } from './cell';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Cell, cellValuesEqual, DEFAULT_CELL, DEFAULT_NOTES } from './cell';
 import { SudokuGeneratorService } from './sudoku-generator.service';
 import { positiveMod } from './util';
+import { WinModalComponent } from './win-modal/win-modal.component';
 
 export enum Direction {
   Up,
@@ -23,9 +25,12 @@ export class BoardService {
   // Whether or not the user is jotting notes.
   noteMode: boolean = false;
 
-  constructor(private sudokuGeneratorService: SudokuGeneratorService) {
+  constructor(
+    private sudokuGeneratorService: SudokuGeneratorService,
+    private modalService: NgbModal,
+  ) {
     this.board = sudokuGeneratorService.makeMtBoard();
-    sudokuGeneratorService.newGame(this.board);
+    this.newGame();
   }
 
   /**
@@ -35,6 +40,15 @@ export class BoardService {
    */
   isBoardMt(): boolean {
     return this.board.every(row => row.every(cell => cellValuesEqual(cell, DEFAULT_CELL)));
+  }
+
+  /**
+   * Checks if the board has been solved.
+   * 
+   * @returns True if the board is solved. False otherwise.
+   */
+  isBoardSolved(): boolean {
+    return this.sudokuGeneratorService.isBoardSolved(this.board);
   }
 
   /**
@@ -113,7 +127,7 @@ export class BoardService {
    * @param num The number input.
    */
   makeEdit(num: number): void {
-    if (typeof this.hoveredCell === 'undefined' || this.hoveredCell.concrete || this.isBoardMt())
+    if (typeof this.hoveredCell === 'undefined' || this.hoveredCell.concrete || this.isBoardMt() || this.isBoardSolved())
       return;
 
     if (this.noteMode) {
@@ -142,6 +156,11 @@ export class BoardService {
             this.board[innerRow][innerCol].notes[num - 1] = false;
           }
         }
+
+        // Check for win condition.
+        if (this.isBoardSolved()) {
+          this.modalService.open(WinModalComponent, { centered: true });
+        }
       }
     }
   }
@@ -160,6 +179,8 @@ export class BoardService {
    * Automatically generate notes for each empty Cell.
    */
   autoNotes(): void {
+    if (this.isBoardMt())
+      return;
     for (const row of this.board) {
       for (const cell of row) {
         if (cell.value === 0) {

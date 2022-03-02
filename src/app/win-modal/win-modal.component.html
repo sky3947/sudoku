@@ -1,0 +1,13 @@
+<div class="modal-container bg-dark text-white">
+  <div class="modal-header">
+    <h4 class="modal-title">Game Won</h4>
+    <button type="button" class="btn-close btn-close-white" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>You have solved the board!</p>
+    <p>Click on the "New" button to start a new game.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="activeModal.close('Close click')">Close</button>
+  </div>
+</div>
