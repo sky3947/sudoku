@@ -151,7 +151,7 @@ export class SudokuGeneratorService {
    * @param aTry The sudoku number of the index to look for.
    * @returns The `tries` index of a given sudoku number.
    */
-  private tryAt(aTry: number) {
+  tryAt(aTry: number) {
     return aTry - 1;
   }
 
