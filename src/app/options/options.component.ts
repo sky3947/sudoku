@@ -36,16 +36,4 @@ export class OptionsComponent {
     }
     this.boardService.newGame();
   }
-
-  /**
-   * Closes the 'note' modal and asks the BoardService to generate notes.
-   * 
-   * @param result The modal close result.
-   */
-  autoNotes(result: string): void {
-    if (this.activeModal) {
-      this.activeModal.close(result);
-    }
-    this.boardService.autoNotes();
-  }
 }

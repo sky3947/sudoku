@@ -58,6 +58,12 @@ export class AppComponent {
         break;
       }
 
+      // Automatically generate notes.
+      case CONTROLS.AutoNotes: {
+        this.controlsService.showAutoNotesModal();
+        break;
+      }
+
       // Cell editing.
       case CONTROLS.None:
       case CONTROLS.None2:

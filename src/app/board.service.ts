@@ -25,6 +25,7 @@ export class BoardService {
 
   constructor(private sudokuGeneratorService: SudokuGeneratorService) {
     this.board = sudokuGeneratorService.makeMtBoard();
+    sudokuGeneratorService.newGame(this.board);
   }
 
   /**

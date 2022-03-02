@@ -1,0 +1,14 @@
+<div class="modal-container bg-dark text-white">
+  <div class="modal-header">
+    <h4 class="modal-title">Generate Notes</h4>
+    <button type="button" class="btn-close btn-close-white" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Are you sure you want to automatically generate notes?</strong></p>
+    <p>Your current notes will be overriden.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="activeModal.close('Cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="autoNotes('Ok click')">Ok</button>
+  </div>
+</div>

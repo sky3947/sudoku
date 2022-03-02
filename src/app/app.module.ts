@@ -7,6 +7,7 @@ import { BoardComponent } from './board/board.component';
 import { RowComponent } from './row/row.component';
 import { CellComponent } from './cell/cell.component';
 import { OptionsComponent } from './options/options.component';
+import { AutoNotesModalComponent } from './auto-notes-modal/auto-notes-modal.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { OptionsComponent } from './options/options.component';
     BoardComponent,
     RowComponent,
     CellComponent,
-    OptionsComponent
+    OptionsComponent,
+    AutoNotesModalComponent
   ],
   imports: [
     BrowserModule,

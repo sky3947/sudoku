@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AutoNotesModalComponent } from './auto-notes-modal/auto-notes-modal.component';
 import { BoardService, Direction } from './board.service';
 
 export const CONTROLS = {
@@ -23,6 +25,9 @@ export const CONTROLS = {
   'ToggleNoteMode': 'e',
   'ToggleNoteMode2': 'Enter',
 
+  // Automatically generate notes.
+  'AutoNotes': 'E',
+
   // Editing controls.
   'None': '0',
   'None2': ' ',
@@ -42,7 +47,10 @@ export const CONTROLS = {
   providedIn: 'root'
 })
 export class ControlsService {
-  constructor(private boardService: BoardService) { }
+  constructor(
+    private boardService: BoardService,
+    private modalService: NgbModal,
+  ) { }
 
   /**
    * Asks the BoardService to toggle note taking mode.
@@ -68,5 +76,21 @@ export class ControlsService {
    */
   makeEdit(num: number): void {
     this.boardService.makeEdit(num);
+  }
+
+  /**
+   * Open the confirmation modal for generating automatic notes.
+   */
+  showAutoNotesModal(): void {
+    if (this.boardService.isBoardMt())
+      return;
+    this.modalService.open(AutoNotesModalComponent, { centered: true });
+  }
+
+  /**
+   * Asks the BoardService to automatically generate notes.
+   */
+  autoNotes(): void {
+    this.boardService.autoNotes();
   }
 }

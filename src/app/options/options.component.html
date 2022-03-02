@@ -16,23 +16,6 @@
   </div>
 </ng-template>
 
-<ng-template #noteModal let-modal>
-  <div class="modal-container bg-dark text-white">
-    <div class="modal-header">
-      <h4 class="modal-title">Generate Notes</h4>
-      <button type="button" class="btn-close btn-close-white" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      <p><strong>Are you sure you want to automatically generate notes?</strong></p>
-      <p>Your current notes will be overriden.</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Cancel click')">Cancel</button>
-      <button type="button" class="btn btn-danger" (click)="autoNotes('Ok click')">Ok</button>
-    </div>
-  </div>
-</ng-template>
-
 <ng-template #helpModal let-modal>
   <div class="modal-container bg-dark text-white">
     <div class="modal-header">
@@ -61,6 +44,7 @@
         <li>0, SPACE, or BACKSPACE to clear a cell.</li>
       </ul>
       <p>Note mode allows you to note multiple possible numbers for a cell.</p>
+      <p>Press 'SHIFT + E' to automatically generate notes.</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
@@ -70,6 +54,5 @@
 
 <div class="border w-100 border-secondary border-top-0 p-1 btn-group">
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(newGameModal)">New</button>
-  <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(noteModal)">Auto Notes</button>
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(helpModal)">Help</button>
 </div>
