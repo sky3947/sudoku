@@ -1,5 +1,17 @@
+.row {
+  margin: auto;
+}
+
+.col-xs-6 {
+  padding: 0px;
+}
+
 div.container {
-  min-width: 600px;
-  max-width: 600px;
+  width: 607px;
   padding-top: 5% !important;
+}
+
+div.board-container {
+  min-width: 607px;
+  max-width: 607px;
 }

@@ -9,6 +9,7 @@ import { CellComponent } from './cell/cell.component';
 import { OptionsComponent } from './options/options.component';
 import { AutoNotesModalComponent } from './auto-notes-modal/auto-notes-modal.component';
 import { WinModalComponent } from './win-modal/win-modal.component';
+import { MobileControlsComponent } from './mobile-controls/mobile-controls.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { WinModalComponent } from './win-modal/win-modal.component';
     CellComponent,
     OptionsComponent,
     AutoNotesModalComponent,
-    WinModalComponent
+    WinModalComponent,
+    MobileControlsComponent
   ],
   imports: [
     BrowserModule,

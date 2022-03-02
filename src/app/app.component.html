@@ -1,6 +1,12 @@
 <div class="container user-select-none p-0">
-  <div class="w-100 border border-secondary border-end-0 border-bottom-0" style="border-top-width: 4px !important; border-left-width: 4px !important;">
-    <app-board></app-board>
+  <div class="d-flex flex-row">
+    <div class="board-container w-100 border border-secondary border-end-0 border-bottom-0"
+      style="border-top-width: 4px !important; border-left-width: 4px !important;">
+      <app-board></app-board>
+      <app-options></app-options>
+    </div>
+    <div class="ms-1">
+      <app-mobile-controls></app-mobile-controls>
+    </div>
   </div>
-  <app-options></app-options>
 </div>

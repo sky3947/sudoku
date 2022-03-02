@@ -30,6 +30,14 @@
         column, and 3x3 subgrid.
       </p>
       <p><strong>Controls:</strong></p>
+      <p>You can use the controls to the right of the board, or use the keyboard controls below.</p>
+      <p>Controls to the right of the board:</p>
+      <ul>
+        <li>Click or tap on a cell to select it.</li>
+        <li>Use the numpad to input that number into the cell.</li>
+        <li>The "Toggle note mode" button will allow you to edit notes. More info below.</li>
+        <li>The "A" button will automatically generate notes for you.</li>
+      </ul>
       <p>Movement:</p>
       <ul>
         <li>Mouse left-click</li>
@@ -52,7 +60,7 @@
   </div>
 </ng-template>
 
-<div class="border w-100 border-secondary border-top-0 p-1 btn-group">
+<div class="border w-100 border-secondary border-top-0 border-start-0 p-1 btn-group">
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(newGameModal)">New</button>
   <button type="button" class="btn btn-dark btn-block" (click)="openCenteredModal(helpModal)">Help</button>
 </div>
