@@ -52,6 +52,11 @@
   font-size: 2em;
 }
 
+.long-edit-button {
+  border-width: 0px !important;
+  border-top-width: 1px !important;
+}
+
 .notes-controls {
   overflow: hidden;
 }
