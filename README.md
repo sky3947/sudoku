@@ -1,6 +1,7 @@
 # Sudoku
 
 [Pages demo](https://sky3947.github.io/sudoku/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2. The user can play sudoku with this application.
 
 ## Angular setup
